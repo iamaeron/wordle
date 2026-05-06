@@ -11,6 +11,7 @@ import { Link, useNavigate } from "react-router-dom";
 const Solo = () => {
   const boardRef = useRef(null);
   const [inexistentWord, setInexistentWord] = useState(false);
+  const [guessed, setGuessed] = useState(false);
   const nav = useNavigate();
   const {
     row,
@@ -30,6 +31,9 @@ const Solo = () => {
     setCorrectLetters,
     setPartialLetters,
   } = useBoardStore();
+
+  console.log(validWord);
+  console.log(currentGuess);
 
   useKeyPress((key) => {
     handleKeyPress(key.toUpperCase());
@@ -54,21 +58,29 @@ const Solo = () => {
           const newPartial = [];
           const newInvalid = [];
 
+          let correctCount = 0;
+
           [...currentRow.children].forEach((cell, index) => {
             const letter = currentGuess[index];
             cell.classList.remove("default");
 
-            if (validWord.includes(letter)) {
-              cell.classList.add("partial");
-              newPartial.push(letter);
-            } else if (letter === validWord[index]) {
+            if (letter === validWord[index]) {
+              correctCount++;
               cell.classList.add("correct");
               newCorrect.push(letter);
+            } else if (validWord.includes(letter)) {
+              cell.classList.add("partial");
+              newPartial.push(letter);
             } else {
               newInvalid.push(letter);
               cell.classList.add("incorrect");
             }
           });
+
+          if (correctCount === 5) {
+            setGuessed(true);
+            return;
+          }
 
           setCorrectLetters([...correctLetters, ...newCorrect]);
           setPartialLetters([...partialLetters, ...newPartial]);
@@ -107,6 +119,7 @@ const Solo = () => {
 
   const handleReset = () => {
     setRow(0);
+    setGuessed(false);
     setValidWord(getRandomWord());
     setGuesses(Array(6).fill(""));
     setCurrentGuess("");
@@ -161,6 +174,39 @@ const Solo = () => {
           <div className="p-6 bg-white w-full text-zinc-800 shadow-2xl max-w-md rounded-xl">
             <h1 className="text-xl font-semibold">Game Over!</h1>
             <p className="mt-4">The word is:</p>
+            <h1 className="text-xl font-semibold capitalize text-emerald-600">
+              {validWord.toLowerCase()}
+            </h1>
+            <div className="flex justify-center mt-8 gap-2">
+              <div onClick={handleReset} className="w-full">
+                <div className="bg-teal-600 rounded-xl mt-2 shadow-xl">
+                  <button className="border-2 border-teal-600 shadow-[inset_0_2px_0_0_var(--color-teal-300)] py-2 text-sm rounded-xl bg-teal-400 text-zinc-900 hover:-translate-y-1.5 focus:-translate-y-1.5 active:translate-y-0 transition -translate-y-2 flex items-center justify-center group px-3 w-full">
+                    <span className="text-base transition font-medium">
+                      Play again
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+              <Link to="/" className="w-full">
+                <div className="bg-zinc-400 rounded-xl mt-2 shadow-xl">
+                  <button className="border-2 border-zinc-400 shadow-[inset_0_2px_0_0_var(--color-white)] py-2 text-sm rounded-xl bg-white text-zinc-900 hover:-translate-y-1.5 focus:-translate-y-1.5 active:translate-y-0 transition -translate-y-2 flex items-center justify-center group px-3 w-full">
+                    <span className="text-base transition font-medium">
+                      Back to home
+                    </span>
+                  </button>
+                </div>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {guessed && (
+        <div className="bg-black/10 backdrop-blur-sm fixed inset-0 flex items-center justify-center">
+          <div className="p-6 bg-white w-full text-zinc-800 shadow-2xl max-w-md rounded-xl">
+            <h1 className="text-xl font-semibold">Congratulations!</h1>
+            <p className="mt-4">You guessed the word!</p>
             <h1 className="text-xl font-semibold capitalize text-emerald-600">
               {validWord.toLowerCase()}
             </h1>
