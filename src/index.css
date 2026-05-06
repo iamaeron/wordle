@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+body {
+  font-family: "Fredoka", sans-serif;
+}
+
+/* board letters */
+
+.default {
+  @apply border-mauve-300 bg-mauve-50 text-zinc-700;
+}
+
+.correct {
+  @apply border-emerald-700 bg-emerald-600 text-white;
+}
+
+.partial {
+  @apply border-amber-600 bg-amber-500 text-white;
+}
+
+.incorrect {
+  @apply border-zinc-700 bg-zinc-600 text-zinc-300;
+}
+
+/* key cap */
+
+.keycap-default {
+  @apply bg-zinc-200 border-zinc-300 text-zinc-700;
+}
+
+.keycap-correct {
+  @apply bg-emerald-600 border-emerald-700 text-white;
+}
+
+.keycap-incorrect {
+  @apply bg-zinc-500 border-zinc-600 text-zinc-300;
+}
+
+.keycap-partial {
+  @apply bg-amber-500 border-amber-600 text-white;
+}
