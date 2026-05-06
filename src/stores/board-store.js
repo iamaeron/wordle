@@ -1,11 +1,10 @@
 import { createStore } from "zustand";
-import { validWords } from "../data/validWords";
+import { getRandomWord, validWords } from "../data/validWords";
 
 export const boardStore = createStore((set) => ({
   row: 0,
   col: 0,
-  validWord:
-    validWords[Math.floor(Math.random() * validWords.length)].toUpperCase(),
+  validWord: getRandomWord(),
   setValidWord: (val) => set({ validWord: val }),
   guesses: Array(6).fill(""),
   setGuesses: (val) => set({ guesses: val }),

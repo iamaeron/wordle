@@ -1,4 +1,10 @@
-const validWords = [
+export const getRandomWord = () => {
+  return validWords[
+    Math.floor(Math.random() * validWords.length)
+  ].toUpperCase();
+};
+
+export const validWords = [
   "aback",
   "abase",
   "abate",
