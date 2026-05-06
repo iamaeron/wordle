@@ -32,9 +32,6 @@ const Solo = () => {
     setPartialLetters,
   } = useBoardStore();
 
-  console.log(validWord);
-  console.log(currentGuess);
-
   useKeyPress((key) => {
     handleKeyPress(key.toUpperCase());
   });
@@ -138,7 +135,7 @@ const Solo = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="max-w-xl w-full flex justify-center mx-auto py-3">
+      <header className="max-w-2xl  w-full flex justify-center mx-auto py-3">
         <Logo />
       </header>
 
